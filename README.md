@@ -141,6 +141,39 @@ The script will:
 3. If drift is found, pass the report to the agent with instructions to update the SKILL.md files.
 4. Re-run the drift check to verify the fix (skipped in `--from-ci` mode without a local `server.go`).
 
+## Publishing to npm
+
+The package is published automatically via GitHub Actions when you push a version tag.
+
+### Setup (one-time)
+
+1. Create an npm access token at [npmjs.com/settings/tokens](https://www.npmjs.com/settings/~/tokens) (type: **Automation**).
+2. Add it as `NPM_TOKEN` in the repo's GitHub secrets (**Settings > Secrets and variables > Actions**).
+3. Make sure the `@hoophq` org exists on npm ([npmjs.com/org/create](https://www.npmjs.com/org/create)).
+
+### Publishing a new version
+
+```bash
+npm version patch   # 1.0.0 → 1.0.1 (or use minor / major)
+git push --follow-tags
+```
+
+`npm version` updates `package.json`, commits the change, and creates a `v1.0.1` git tag.
+Pushing the tag triggers the `.github/workflows/publish.yml` workflow which runs `npm publish --access public`.
+
+The workflow verifies that the tag version matches `package.json` before publishing.
+
+### First publish (manual)
+
+If the package has never been published, do the first one manually:
+
+```bash
+npm login
+npm publish --access public
+```
+
+After that, all subsequent releases go through the CI workflow.
+
 ## Coverage
 
 These skills map to all 171 routes registered in `buildRoutes()` in `hoop/gateway/api/server.go` at version 1.55.5.
