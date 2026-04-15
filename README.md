@@ -86,12 +86,40 @@ Routes in SKILL.md NOT found in server.go (1):
   - DELETE /removed-endpoint
 ```
 
+## CI Workflow
+
+A GitHub Actions workflow runs the drift check automatically when `server.go` changes.
+The workflow lives at `.github/workflows/skills-drift.yml` in this repo.
+
+**Triggers:**
+- **`workflow_dispatch`** -- run it manually from the Actions tab, optionally passing a `hoop_ref` (branch/tag/SHA)
+- **`repository_dispatch`** -- triggered from the `hoop` repo when `server.go` changes (event type: `server-go-changed`)
+
+When drift is found the workflow fails and uploads the report as a `drift-report` artifact.
+
+### Triggering from the `hoop` repo
+
+Add a step to any `hoop` workflow that fires when `gateway/api/server.go` changes:
+
+```yaml
+- name: Notify hoop-skills
+  if: contains(github.event.commits.*.modified, 'gateway/api/server.go')
+  run: |
+    gh api repos/hoophq/hoop-skills/dispatches \
+      -f event_type=server-go-changed \
+      -f 'client_payload[ref]=${{ github.sha }}'
+  env:
+    GH_TOKEN: ${{ secrets.HOOP_SKILLS_DISPATCH_TOKEN }}
+```
+
 ## Auto-Fix with Agent
 
 When drift is detected, an AI agent can update the SKILL.md files automatically.
 The `drift-fix.sh` script runs the drift check and invokes the first available agent CLI.
 
 ```bash
+# --- Local mode (you have server.go checked out) ---
+
 # Auto-detect agent (tries cursor-agent, claude, codex in order)
 ./scripts/drift-fix.sh /path/to/hoop/gateway/api/server.go
 
@@ -99,13 +127,19 @@ The `drift-fix.sh` script runs the drift check and invokes the first available a
 ./scripts/drift-fix.sh /path/to/hoop/gateway/api/server.go --agent cursor-agent
 ./scripts/drift-fix.sh /path/to/hoop/gateway/api/server.go --agent claude
 ./scripts/drift-fix.sh /path/to/hoop/gateway/api/server.go --agent codex
+
+# --- CI mode (download drift report from the latest workflow run) ---
+
+# Requires the `gh` CLI to be authenticated
+./scripts/drift-fix.sh --from-ci
+./scripts/drift-fix.sh --from-ci --agent cursor-agent
 ```
 
 The script will:
-1. Run the drift check.
+1. Run the drift check locally, or download the latest report from CI (`--from-ci`).
 2. If all routes are in sync, exit with no changes.
 3. If drift is found, pass the report to the agent with instructions to update the SKILL.md files.
-4. Re-run the drift check to verify the fix.
+4. Re-run the drift check to verify the fix (skipped in `--from-ci` mode without a local `server.go`).
 
 ## Coverage
 
