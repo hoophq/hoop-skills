@@ -1,0 +1,25 @@
+{
+  "name": "@hoophq/hoop-skills",
+  "version": "1.0.0",
+  "description": "Hoop Gateway API skills for AI coding agents",
+  "bin": {
+    "hoop-skills": "./bin/install.js"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "README.md"
+  ],
+  "keywords": [
+    "hoop",
+    "skills",
+    "cursor",
+    "codex",
+    "ai-agent"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hoophq/hoop-skills.git"
+  }
+}

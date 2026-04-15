@@ -3,11 +3,28 @@
 Generic, agent-friendly skills for the Hoop Gateway API under `hoop/gateway/api`.
 These skills are written as plain markdown so any coding agent can consume them.
 
+## Installation
+
+```bash
+# Install into current project (.cursor/skills/)
+npx @hoophq/hoop-skills
+
+# Install globally for all projects (~/.cursor/skills/)
+npx @hoophq/hoop-skills --global
+
+# Install to a custom directory
+npx @hoophq/hoop-skills --target ./my-skills
+
+# List available skills without installing
+npx @hoophq/hoop-skills --list
+```
+
 ## Quick Start
 
-1. Start with `hoop-api-overview/SKILL.md`.
-2. Pick the domain skill that matches the endpoint you are changing.
-3. Open linked files in each skill's `references/` folder for deeper details.
+1. Run the install command above.
+2. Start with `hoop-api-overview/SKILL.md`.
+3. Pick the domain skill that matches the endpoint you are changing.
+4. Open linked files in each skill's `references/` folder for deeper details.
 
 ## Skill Index
 
