@@ -1,5 +1,7 @@
 # Hoop API Overview Skill
 
+> **API version**: 1.55.5
+
 Use this skill before changing any endpoint in `hoop/gateway/api`.
 
 ## Scope
@@ -25,6 +27,14 @@ Use this skill before changing any endpoint in `hoop/gateway/api`.
 - gRPC transport: `:8010`
 - WebSocket endpoint: `/ws`
 - Base API group: `/<api-base>/api`
+
+## Infrastructure Routes
+
+| Method | Path | Handler |
+|---|---|---|
+| GET | `/healthz` | `apihealthz.LivenessHandler()` |
+| GET | `/openapiv2.json` | `openapi.Handler` |
+| GET | `/openapiv3.json` | `openapi.HandlerV3` |
 
 ## Route Registration Pattern
 

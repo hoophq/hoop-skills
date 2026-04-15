@@ -1,5 +1,7 @@
 # Hoop Auth Skill
 
+> **API version**: 1.55.5
+
 Use this skill for authentication entry points, login callbacks, and public server identity endpoints.
 
 ## Primary Files

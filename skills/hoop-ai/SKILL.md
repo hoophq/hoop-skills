@@ -1,5 +1,7 @@
 # Hoop AI Skill
 
+> **API version**: 1.55.5
+
 Use this skill for AI provider configuration, AI session analyzer rules, and Ask AI feature routes.
 
 ## Primary Files

@@ -1,5 +1,7 @@
 # Hoop Connections Skill
 
+> **API version**: 1.55.5
+
 Use this skill for connection CRUD, connection testing, DB metadata exploration, and temporary credential workflows.
 
 ## Primary Files

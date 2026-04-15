@@ -1,5 +1,7 @@
 # Hoop Security Skill
 
+> **API version**: 1.55.5
+
 Use this skill for guardrail rule management, data masking rule management, and audit log retrieval.
 
 ## Primary Files

@@ -1,5 +1,7 @@
 # Hoop Resources Skill
 
+> **API version**: 1.55.5
+
 Use this skill for resource CRUD, attributes CRUD, and search/metrics/report endpoints.
 
 ## Primary Files

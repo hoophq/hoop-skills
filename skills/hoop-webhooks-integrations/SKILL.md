@@ -1,5 +1,7 @@
 # Hoop Webhooks and Integrations Skill
 
+> **API version**: 1.55.5
+
 Use this skill for webhook management (Svix), Jira integration endpoints, AWS integration endpoints, and DB role jobs.
 
 ## Primary Files

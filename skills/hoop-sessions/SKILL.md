@@ -1,5 +1,7 @@
 # Hoop Sessions Skill
 
+> **API version**: 1.55.5
+
 Use this skill for execution sessions, review execution handoff, downloads, streaming output, provisioning, and transport websocket ingress.
 
 ## Primary Files

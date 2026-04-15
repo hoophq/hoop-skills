@@ -1,5 +1,7 @@
 # Hoop Plugins and Runbooks Skill
 
+> **API version**: 1.55.5
+
 Use this skill for plugin lifecycle, plugin connection mapping, and runbook execution/configuration routes.
 
 ## Primary Files

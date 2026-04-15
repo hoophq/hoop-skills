@@ -1,5 +1,7 @@
 # Hoop Reviews Skill
 
+> **API version**: 1.55.5
+
 Use this skill for review approvals and access request rule management.
 
 ## Primary Files

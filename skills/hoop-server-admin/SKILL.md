@@ -1,11 +1,14 @@
 # Hoop Server Admin Skill
 
-Use this skill for server configuration, organization keys/license operations, and proxy manager endpoints.
+> **API version**: 1.55.5
+
+Use this skill for server configuration, organization keys/license operations, agent management, and proxy manager endpoints.
 
 ## Primary Files
 
 - `hoop/gateway/api/serverconfig/`
 - `hoop/gateway/api/orgs/`
+- `hoop/gateway/api/agents/`
 - `hoop/gateway/api/proxymanager/`
 - `hoop/gateway/api/server.go`
 
@@ -13,6 +16,10 @@ Use this skill for server configuration, organization keys/license operations, a
 
 | Method | Path | Handler |
 |---|---|---|
+| POST | `/agents` | `apiagents.Post` |
+| GET | `/agents` | `apiagents.List` |
+| GET | `/agents/:nameOrID` | `apiagents.Get` |
+| DELETE | `/agents/:nameOrID` | `apiagents.Delete` |
 | POST | `/orgs/keys` | `apiorgs.CreateAgentKey` |
 | GET | `/orgs/keys` | `apiorgs.GetAgentKey` |
 | DELETE | `/orgs/keys` | `apiorgs.RevokeAgentKey` |
@@ -29,6 +36,9 @@ Use this skill for server configuration, organization keys/license operations, a
 
 ## Core Types
 
+- `openapi.AgentRequest`
+- `openapi.AgentCreateResponse`
+- `openapi.AgentResponse`
 - `openapi.OrgKeyResponse`
 - `openapi.License`
 - `openapi.ServerMiscConfig`

@@ -40,7 +40,7 @@ npx @hoophq/hoop-skills --list
 | `hoop-security` | Guardrails, data masking, audit logs | `/guardrails*`, `/datamasking-rules*`, `/audit/logs` |
 | `hoop-webhooks-integrations` | Webhooks, Jira, AWS integration | `/webhooks*`, `/integrations/*`, `/dbroles/jobs*`, `/webhooks-dashboard` |
 | `hoop-ai` | AI providers and rules | `/ai/session-analyzer/*`, `/orgs/features`, `/features/ask-ai/v1/chat/completions` |
-| `hoop-server-admin` | Server and organization admin controls | `/serverconfig/*`, `/orgs/keys*`, `/orgs/license*`, `/proxymanager/*` |
+| `hoop-server-admin` | Server admin, agents, org keys, proxy manager | `/serverconfig/*`, `/orgs/keys*`, `/orgs/license*`, `/agents*`, `/proxymanager/*` |
 | `hoop-resources` | Resources, attributes, analytics endpoints | `/resources*`, `/attributes*`, `/search`, `/metrics/sessions`, `/reports/sessions` |
 
 ## Source of Truth
@@ -50,6 +50,63 @@ npx @hoophq/hoop-skills --list
 - Shared middleware: `hoop/gateway/api/middleware.go`
 - API types: `hoop/gateway/api/openapi/types.go`
 
-## Coverage Note
+## Versioning
 
-These skills map to all routes registered in `buildRoutes()` in `hoop/gateway/api/server.go`.
+Each `SKILL.md` declares the API version it documents (e.g., `> **API version**: 1.55.5`).
+When the gateway releases a new version, update the skills and bump `package.json`.
+
+## Drift Check
+
+A script compares routes in `server.go` against what is documented in the skills.
+It exits non-zero when routes are missing or stale, so it can gate CI.
+
+```bash
+./scripts/drift-check.sh /path/to/hoop/gateway/api/server.go
+```
+
+Example output when everything is in sync:
+
+```
+=== Hoop Skills Drift Check ===
+
+Source routes (server.go):  171
+Documented routes (skills): 171
+
+All routes are in sync.
+```
+
+When routes diverge, the script lists exactly which routes were added or removed:
+
+```
+Routes in server.go NOT documented in any SKILL.md (2):
+  + GET /new-endpoint
+  + POST /new-endpoint
+
+Routes in SKILL.md NOT found in server.go (1):
+  - DELETE /removed-endpoint
+```
+
+## Auto-Fix with Agent
+
+When drift is detected, an AI agent can update the SKILL.md files automatically.
+The `drift-fix.sh` script runs the drift check and invokes the first available agent CLI.
+
+```bash
+# Auto-detect agent (tries cursor-agent, claude, codex in order)
+./scripts/drift-fix.sh /path/to/hoop/gateway/api/server.go
+
+# Use a specific agent
+./scripts/drift-fix.sh /path/to/hoop/gateway/api/server.go --agent cursor-agent
+./scripts/drift-fix.sh /path/to/hoop/gateway/api/server.go --agent claude
+./scripts/drift-fix.sh /path/to/hoop/gateway/api/server.go --agent codex
+```
+
+The script will:
+1. Run the drift check.
+2. If all routes are in sync, exit with no changes.
+3. If drift is found, pass the report to the agent with instructions to update the SKILL.md files.
+4. Re-run the drift check to verify the fix.
+
+## Coverage
+
+These skills map to all 171 routes registered in `buildRoutes()` in `hoop/gateway/api/server.go` at version 1.55.5.

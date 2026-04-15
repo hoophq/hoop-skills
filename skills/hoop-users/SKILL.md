@@ -1,5 +1,7 @@
 # Hoop Users Skill
 
+> **API version**: 1.55.5
+
 Use this skill for user lifecycle operations, group management, and service accounts.
 
 ## Primary Files
