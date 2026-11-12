@@ -18,6 +18,7 @@ Use this skill for review approvals and access request rule management.
 | GET | `/reviews` | `reviewHandler.List` |
 | GET | `/reviews/:id` | `reviewHandler.GetByIdOrSid` |
 | PUT | `/reviews/:id` | `reviewHandler.ReviewByIdOrSid` |
+| GET | `/approvals/routing/integrations` | `reviewapi.GetRoutingIntegrations` |
 | PUT | `/sessions/:session_id/review` | `reviewHandler.ReviewBySid` |
 | GET | `/access-requests/rules` | `accessrequestsapi.ListAccessRequestRules` |
 | POST | `/access-requests/rules` | `accessrequestsapi.CreateAccessRequestRule` |
@@ -32,12 +33,14 @@ Use this skill for review approvals and access request rule management.
 - `openapi.ReviewSessionTimeWindow`
 - `openapi.AccessRequestRule`
 - `openapi.AccessRequestRuleRequest`
+- `openapi.ApprovalRoutingIntegrations`
 
 ## Important Behavior
 
 - Review handler is dependency-injected (`NewHandler(...)`) unlike most API packages.
 - Time-window and force-approval logic are central to review correctness.
 - Access request rules define reviewer groups, approval requirements, and max duration.
+- `GET /approvals/routing/integrations` is admin only. It lists the notify integrations (`slack`, `teams`) and the Slack channels a level's `routing` config can use. `integrated` is false for an integration that is not set up; a channel with no known name shows its id.
 
 ## Change Checklist
 
